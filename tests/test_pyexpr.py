@@ -127,6 +127,23 @@ def test_lambda():
     assert eval_expression("(lambda *args: sum(args))(1, 2, 3)") == 6
 
 
+def test_attributes():
+    """Tests for attributes."""
+    class Address:
+        def __init__(self, street='street', city='city'):
+            self.street = street
+            self.city = city
+
+    class Person:
+        def __init__(self, name='test', address=None):
+            self.name = name
+            self.address = address or Address()
+
+    person = Person()
+    assert eval_expression("person.name", {"person": person}) == "test"
+    assert eval_expression("person.address.city", {"person": person}) == "city"
+
+
 def test_expression():
     """Tests for expressions."""
     event = {

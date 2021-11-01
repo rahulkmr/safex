@@ -245,6 +245,14 @@ class Evaluator(ast.NodeVisitor):
         elif node.upper:
             return slice(self.visit(node.upper))
 
+    def visit_Attribute(self, node: ast.Attribute) -> Any:
+        """
+        Evaluate attribute.
+        :param node: attribute node
+        :return: attribute value
+        """
+        return getattr(self.visit(node.value), node.attr)
+
     def visit_Lambda(self, node: ast.Lambda) -> Any:
         """
         Evaluates lambda.
