@@ -46,6 +46,9 @@ assert eval_expression("list(filter(lambda x: x % 2 == 1, range(6)))") == [1, 3,
 assert eval_expression("list(sorted(range(5), reverse=True))") == [4, 3, 2, 1, 0]
 assert eval_expression("(lambda *args: sum(args))(1, 2, 3)") == 6
 
+# Attributes
+assert eval_expression("person.name", {"person": person}) == "test"
+assert eval_expression("person.address.city", {"person": person}) == "city"
 
 event = {
     'type': 'user_added',
