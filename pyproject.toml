@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pyexpr"
+version = "0.1.0"
+description = ""
+authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+coverage = {extras = ["toml"], version = "^6.1.1"}
+
+[tool.coverage.run]
+source = ["pyexpr"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
