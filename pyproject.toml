@@ -5,11 +5,13 @@ description = ""
 authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 coverage = {extras = ["toml"], version = "^6.1.1"}
+tox = "^3.24.4"
+tox-pyenv = "^1.1.0"
 
 [tool.coverage.run]
 source = ["pyexpr"]

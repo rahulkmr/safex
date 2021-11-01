@@ -231,6 +231,23 @@ class Evaluator(ast.NodeVisitor):
         elif node.upper:
             return slice(self.visit(node.upper))
 
+    def visit_Index(self, node: ast.Index) -> Any:
+        """
+        Evaluates index.
+
+        :param node:  index node
+        :return: index value
+        """
+        return self.visit(node.value)
+
+    def visit_NameConstant(self, node: ast.NameConstant) -> Any:
+        """
+        Evaluates Name constant.
+        :param node: name constant node
+        :return: name constant value
+        """
+        return node.value
+
     def visit_Constant(self, node: ast.Constant) -> Any:
         """
         Evaluates constant node.
