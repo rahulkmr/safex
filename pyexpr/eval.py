@@ -27,6 +27,7 @@ class Evaluator(ast.NodeVisitor):
 
     :param scope: The local scope for evaluation
     """
+
     global_scope = {
         "True": True,
         "False": False,
@@ -194,7 +195,10 @@ class Evaluator(ast.NodeVisitor):
         :param node: dictionary node
         :return: dict value
         """
-        return {self.visit(key): self.visit(value) for key, value in zip(node.keys, node.values)}
+        return {
+            self.visit(key): self.visit(value)
+            for key, value in zip(node.keys, node.values)
+        }
 
     def visit_Tuple(self, node: ast.Tuple) -> Any:
         """
@@ -223,7 +227,9 @@ class Evaluator(ast.NodeVisitor):
         :return: slice object
         """
         if node.lower and node.upper and node.step:
-            return slice(self.visit(node.lower), self.visit(node.upper), self.visit(node.step))
+            return slice(
+                self.visit(node.lower), self.visit(node.upper), self.visit(node.step)
+            )
         elif node.lower and node.upper:
             return slice(self.visit(node.lower), self.visit(node.upper))
         elif node.lower:

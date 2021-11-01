@@ -5,7 +5,7 @@ from pyexpr import __version__, eval_expression
 
 
 def test_version():
-    assert __version__ == '0.1.0'
+    assert __version__ == "0.1.0"
 
 
 def test_binary_operators():
@@ -93,7 +93,7 @@ def test_collections():
     """Tests for collections."""
     assert eval_expression("[1, 2, 3]") == [1, 2, 3]
     assert eval_expression("(1, 2, 3)") == (1, 2, 3)
-    assert eval_expression("{'a': 1, 'b': 2}") == {'a': 1, 'b': 2}
+    assert eval_expression("{'a': 1, 'b': 2}") == {"a": 1, "b": 2}
 
 
 def test_subscript():
@@ -110,20 +110,27 @@ def test_subscript():
 def test_expression():
     """Tests for expressions."""
     event = {
-        'type': 'user_added',
-        'payload': {
-            'name': 'test',
-            'age': 17,
-            'emails': [
-                {'type': 'primary', 'email': 'test@test.com'},
-                {'type': 'secondary', 'email': 'test2@test.com'}
-            ]
-        }
+        "type": "user_added",
+        "payload": {
+            "name": "test",
+            "age": 17,
+            "emails": [
+                {"type": "primary", "email": "test@test.com"},
+                {"type": "secondary", "email": "test2@test.com"},
+            ],
+        },
     }
-    assert eval_expression(
-        "event['type'] == 'user_added' and event['payload']['age'] < 18", {"event": event}) == True
-    assert eval_expression(
-        "event['payload']['emails'][0]['email']", {"event": event}) == 'test@test.com'
+    assert (
+        eval_expression(
+            "event['type'] == 'user_added' and event['payload']['age'] < 18",
+            {"event": event},
+        )
+        == True
+    )
+    assert (
+        eval_expression("event['payload']['emails'][0]['email']", {"event": event})
+        == "test@test.com"
+    )
 
     with pytest.raises(ValueError):
         eval_expression("lambda x: x")
