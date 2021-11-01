@@ -4,6 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/rahulkmr/safex"
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -15,6 +17,8 @@ tox = "^3.24.4"
 tox-pyenv = "^1.1.0"
 black = "^21.10b0"
 flake8 = "^4.0.1"
+mypy = "^0.910"
+bandit = "^1.7.0"
 
 [tool.coverage.run]
 source = ["safex"]
