@@ -1,10 +1,11 @@
-name: Build and run tests
+name: Publish package
 
 on:
-  - push
+  release:
+    types: [created]
 
 jobs:
-  build:
+  build_and_publish:
     runs-on: ${{matrix.platform}}
     strategy:
       matrix:
@@ -23,3 +24,11 @@ jobs:
         poetry install
     - name: Test with tox
       run: poetry run tox -e py
+    - name: Build package
+      run: poetry build
+    - name: Publish package
+      if: ${{ matrix.python-version }} == 3.9
+      run: poetry publish
+      env:
+        POETRY_HTTP_BASIC_PYPI_USERNAME: __token__
+        POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
