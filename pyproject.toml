@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "safex"
 version = "0.1.0"
-description = ""
+description = "Simple and safe expression evaluator"
 authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/rahulkmr/safex"
+repository = "https://github.com/rahulkmr/safex"
 
 [tool.poetry.dependencies]
 python = "^3.7"
