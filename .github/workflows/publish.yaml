@@ -26,6 +26,7 @@ jobs:
       run: poetry run tox -e py
     - name: Build package
       run: poetry build
+      if: ${{ matrix.python-version }} == 3.9
     - name: Publish package
       if: ${{ matrix.python-version }} == 3.9
       run: poetry publish
