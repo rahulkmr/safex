@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyexpr"
+name = "safex"
 version = "0.1.0"
 description = ""
 authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
@@ -17,7 +17,7 @@ black = "^21.10b0"
 flake8 = "^4.0.1"
 
 [tool.coverage.run]
-source = ["pyexpr"]
+source = ["safex"]
 branch = true
 
 [build-system]

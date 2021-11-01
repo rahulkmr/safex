@@ -1,7 +1,7 @@
 """Tests for expressions."""
 import pytest
 
-from pyexpr import __version__, eval_expression
+from safex import __version__, eval_expression
 
 
 def test_version():

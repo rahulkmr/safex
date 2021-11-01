@@ -1,17 +1,17 @@
-# pyexpr
+# safex
 
-Simple python expression evaluator.
+Safe and simple python expression evaluator.
 
 ## Installation
 
 ```
-pip install pyexpr
+pip install safex
 ```
 
 ## Usage
 
 ```
-from pyexpr import eval_expression
+from safex import eval_expression
 
 
 assert eval_expression("1 + 2 * 12 / 3") == 9
