@@ -4,6 +4,8 @@ Convert expressions to AST and then evaluate them.
 """
 import ast
 import operator
+import types
+from functools import reduce
 from typing import Mapping, Any, Optional
 
 
@@ -31,11 +33,25 @@ class Evaluator(ast.NodeVisitor):
     global_scope = {
         "True": True,
         "False": False,
+        "abs": abs,
         "all": all,
         "any": any,
+        "dict": dict,
+        "filter": filter,
+        "float": float,
+        "int": int,
+        "len": len,
+        "list": list,
+        "map": map,
         "max": max,
         "min": min,
+        "range": range,
+        "reduce": reduce,
+        "reversed": reversed,
+        "sorted": sorted,
         "sum": sum,
+        "tuple": tuple,
+        "zip": zip,
     }
 
     binary_operators = {
@@ -236,6 +252,16 @@ class Evaluator(ast.NodeVisitor):
             return slice(self.visit(node.lower), None)
         elif node.upper:
             return slice(self.visit(node.upper))
+
+    def visit_Lambda(self, node: ast.Lambda) -> Any:
+        """
+        Evaluates lambda.
+        :param node: lambda node
+        :return: lambda value
+        """
+        compiled = compile(ast.Expression(body=node), "<lambda>", "eval")
+        lambda_scope = {**self.global_scope, **self.local_scope}
+        return types.FunctionType(compiled.co_consts[0], lambda_scope)
 
     def visit_Index(self, node: ast.Index) -> Any:
         """

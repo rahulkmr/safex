@@ -45,25 +45,25 @@ def test_unary_operators():
 
 def test_comparisons():
     """Tests for comparisons"""
-    assert eval_expression("2 > 1") == True
-    assert eval_expression("2 < 1") == False
-    assert eval_expression("2 != 1") == True
-    assert eval_expression("2 == 2") == True
-    assert eval_expression("5 <= 6") == True
-    assert eval_expression("5 <= 5") == True
-    assert eval_expression("5 >= 4") == True
-    assert eval_expression("5 >= 5") == True
-    assert eval_expression("1 < 2 < 3") == True
-    assert eval_expression("5 in (1, 2, 5)") == True
-    assert eval_expression("5 in (1, 2, 4)") == False
-    assert eval_expression("5 not in (1, 2, 4)") == True
+    assert eval_expression("2 > 1") is True
+    assert eval_expression("2 < 1") is False
+    assert eval_expression("2 != 1") is True
+    assert eval_expression("2 == 2") is True
+    assert eval_expression("5 <= 6") is True
+    assert eval_expression("5 <= 5") is True
+    assert eval_expression("5 >= 4") is True
+    assert eval_expression("5 >= 5") is True
+    assert eval_expression("1 < 2 < 3") is True
+    assert eval_expression("5 in (1, 2, 5)") is True
+    assert eval_expression("5 in (1, 2, 4)") is False
+    assert eval_expression("5 not in (1, 2, 4)") is True
 
 
 def test_name():
     """Tests for name evaluation"""
     assert eval_expression("a", {"a": 1}) == 1
-    assert eval_expression("all((True, False))") == False
-    assert eval_expression("any((True, False))") == True
+    assert eval_expression("all((True, False))") is False
+    assert eval_expression("any((True, False))") is True
     assert eval_expression("sum((1, 2, 3))") == 6
 
     with pytest.raises(ValueError):
@@ -72,8 +72,8 @@ def test_name():
 
 def test_boolean_operators():
     """Tests for boolean operators."""
-    assert eval_expression("True and False") == False
-    assert eval_expression("True or False") == True
+    assert eval_expression("True and False") is False
+    assert eval_expression("True or False") is True
 
 
 def test_call():
@@ -107,6 +107,26 @@ def test_subscript():
     assert eval_expression("{'a': 1, 'b': 2}['a']") == 1
 
 
+def test_lambda():
+    """Tests for lambdas"""
+    assert eval_expression("(lambda x: x)(1)") == 1
+    assert eval_expression("(lambda x: x * a)(1)", {"a": 10}) == 10
+    assert eval_expression(
+        "list(filter(lambda x: x % 2 == 1, a))", {"a": [0, 1, 2, 3, 4, 5]}
+    ) == [1, 3, 5]
+    assert (
+        eval_expression(
+            "list(filter(lambda x: x % 2 == 1, map(lambda x: x * 3, a)))",
+            {"a": [0, 1, 2, 3, 4, 5]},
+        )
+        == [3, 9, 15]
+    )
+    assert eval_expression("list(filter(lambda x: x % 2 == 1, range(6)))") == [1, 3, 5]
+    assert eval_expression("list(filter(lambda x: x % 2 == 1, range(6)))") == [1, 3, 5]
+    assert eval_expression("list(sorted(range(5), reverse=True))") == [4, 3, 2, 1, 0]
+    assert eval_expression("(lambda *args: sum(args))(1, 2, 3)") == 6
+
+
 def test_expression():
     """Tests for expressions."""
     event = {
@@ -125,12 +145,9 @@ def test_expression():
             "event['type'] == 'user_added' and event['payload']['age'] < 18",
             {"event": event},
         )
-        == True
+        is True
     )
     assert (
         eval_expression("event['payload']['emails'][0]['email']", {"event": event})
         == "test@test.com"
     )
-
-    with pytest.raises(ValueError):
-        eval_expression("lambda x: x")
