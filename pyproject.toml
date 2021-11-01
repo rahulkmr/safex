@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "safex"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simple and safe expression evaluator"
 authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
 license = "MIT"
