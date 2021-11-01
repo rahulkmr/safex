@@ -5,4 +5,4 @@ on:
 
 jobs:
   build-and-test:
-    uses: "rahulkmr/safex/.github/workflows/build_and_test.yaml@feature/ci-cd"
+    uses: "rahulkmr/safex/.github/workflows/build_and_test.yaml@main"
