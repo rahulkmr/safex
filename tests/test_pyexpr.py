@@ -28,16 +28,13 @@ def test_binary_operators():
     assert eval_expression("a * b", {"a": 1, "b": 2}) == 2
     assert eval_expression("a / b", {"a": 10, "b": 2}) == 5
 
-    with pytest.raises(ValueError):
-        eval_expression("a @ b")
-
 
 def test_unary_operators():
     """Tests for unary operators."""
     assert eval_expression("-1") == -1
     assert eval_expression("+1") == 1
-    assert eval_expression("not True") == False
-    assert eval_expression("not False") == True
+    assert eval_expression("not True") is False
+    assert eval_expression("not False") is True
 
     assert eval_expression("-a", {"a": 1}) == -1
     assert eval_expression("+a", {"a": 1}) == 1
@@ -57,6 +54,8 @@ def test_comparisons():
     assert eval_expression("5 in (1, 2, 5)") is True
     assert eval_expression("5 in (1, 2, 4)") is False
     assert eval_expression("5 not in (1, 2, 4)") is True
+    assert eval_expression("True is True") is True
+    assert eval_expression("True is False") is False
 
 
 def test_name():
@@ -65,6 +64,7 @@ def test_name():
     assert eval_expression("all((True, False))") is False
     assert eval_expression("any((True, False))") is True
     assert eval_expression("sum((1, 2, 3))") == 6
+    assert eval_expression("None") is None
 
     with pytest.raises(ValueError):
         eval_expression("a")
