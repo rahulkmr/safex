@@ -3,6 +3,7 @@ name = "pyexpr"
 version = "0.1.0"
 description = ""
 authors = ["Rahul Kumar <r@thoughtnirvana.com>"]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
