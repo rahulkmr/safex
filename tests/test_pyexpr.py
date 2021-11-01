@@ -94,6 +94,8 @@ def test_collections():
     assert eval_expression("[1, 2, 3]") == [1, 2, 3]
     assert eval_expression("(1, 2, 3)") == (1, 2, 3)
     assert eval_expression("{'a': 1, 'b': 2}") == {"a": 1, "b": 2}
+    assert eval_expression("{1, 2, 3}") == {1, 2, 3}
+    assert eval_expression("set(a)", {"a": [1, 1, 2, 3, 4, 4, 5]}) == {1, 2, 3, 4, 5}
 
 
 def test_subscript():
@@ -138,10 +140,14 @@ def test_attributes():
         def __init__(self, name='test', address=None):
             self.name = name
             self.address = address or Address()
+        
+        def greeting(self):
+            return f"hello {self.name}"
 
     person = Person()
     assert eval_expression("person.name", {"person": person}) == "test"
     assert eval_expression("person.address.city", {"person": person}) == "city"
+    assert eval_expression("person.greeting()", {"person": person}) == "hello test"
 
 
 def test_expression():

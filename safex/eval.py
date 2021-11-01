@@ -49,6 +49,7 @@ class Evaluator(ast.NodeVisitor):
         "range": range,
         "reduce": reduce,
         "reversed": reversed,
+        "set": set,
         "sorted": sorted,
         "sum": sum,
         "tuple": tuple,
@@ -219,6 +220,14 @@ class Evaluator(ast.NodeVisitor):
         :return: evaluated tuple
         """
         return tuple(self.visit(element) for element in node.elts)
+
+    def visit_Set(self, node: ast.Set) -> Any:
+        """
+        Evaluates set load
+        :param node: set node
+        :return: evaluated set
+        """
+        return set(self.visit(element) for element in node.elts)
 
     def visit_Subscript(self, node: ast.Subscript) -> Any:
         """
