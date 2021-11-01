@@ -33,6 +33,7 @@ class Evaluator(ast.NodeVisitor):
     global_scope = {
         "True": True,
         "False": False,
+        "None": None,
         "abs": abs,
         "all": all,
         "any": any,
@@ -57,6 +58,7 @@ class Evaluator(ast.NodeVisitor):
     binary_operators = {
         ast.Add: operator.add,
         ast.Sub: operator.sub,
+        ast.MatMult: operator.matmul,
         ast.Mult: operator.mul,
         ast.Div: operator.truediv,
         ast.Mod: operator.mod,
@@ -90,6 +92,8 @@ class Evaluator(ast.NodeVisitor):
         ast.GtE: operator.ge,
         ast.In: lambda a, b: a in b,
         ast.NotIn: lambda a, b: a not in b,
+        ast.Is: operator.is_,
+        ast.IsNot: operator.is_not,
     }
 
     def __init__(self, scope: Optional[Mapping[str, Any]] = None):
@@ -110,12 +114,8 @@ class Evaluator(ast.NodeVisitor):
 
         :param node: binary operator node
         :return: Evaluated expression
-        :throw:
-            ValueError: If the operator is invalid.
         """
         operator_fn = self.binary_operators.get(type(node.op))
-        if not operator_fn:
-            raise ValueError(f"Invalid operator: {node.op}")
         left = self.visit(node.left)
         right = self.visit(node.right)
         return operator_fn(left, right)
@@ -167,8 +167,6 @@ class Evaluator(ast.NodeVisitor):
 
         :param node: boolean operator node
         :return: true or false
-        :throw:
-            ValueError: If the operator is invalid.
         """
         operator_fn = self.boolean_operators.get(type(node.op))
         return operator_fn(self.visit(value) for value in node.values)
@@ -200,8 +198,6 @@ class Evaluator(ast.NodeVisitor):
 
         :param node: list node
         :return: evaluated list
-        :throw:
-            ValueError: If the name cannot be found
         """
         return [self.visit(element) for element in node.elts]
 
@@ -221,8 +217,6 @@ class Evaluator(ast.NodeVisitor):
         Evaluates tuple load.
         :param node: tuple node
         :return: evaluated tuple
-        :throw:
-            ValueError: If the name cannot be found
         """
         return tuple(self.visit(element) for element in node.elts)
 
@@ -231,8 +225,6 @@ class Evaluator(ast.NodeVisitor):
         Evaluates subscript.
         :param node: subscript node
         :return: subscript value
-        :throw:
-            ValueError: If the name cannot be found
         """
         return operator.getitem(self.visit(node.value), self.visit(node.slice))
 
@@ -252,6 +244,14 @@ class Evaluator(ast.NodeVisitor):
             return slice(self.visit(node.lower), None)
         elif node.upper:
             return slice(self.visit(node.upper))
+
+    def visit_Attribute(self, node: ast.Attribute) -> Any:
+        """
+        Evaluate attribute.
+        :param node: attribute node
+        :return: attribute value
+        """
+        return getattr(self.visit(node.value), node.attr)
 
     def visit_Lambda(self, node: ast.Lambda) -> Any:
         """
