@@ -26,3 +26,9 @@ jobs:
         poetry install
     - name: Test with tox
       run: poetry run tox -e py
+    - name: Code coverage report
+      run: |
+        poetry run coverage run -m pytest
+        poetry run coverage xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
