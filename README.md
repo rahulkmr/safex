@@ -1,5 +1,9 @@
 # safex
 
+![Continuous integration](https://github.com/rahulkmr/safex/actions/workflows/ci.yaml/badge.svg)
+![Publish package](https://github.com/rahulkmr/safex/actions/workflows/publish.yaml/badge.svg)
+![PyPI version](https://badge.fury.io/py/safex.svg)
+
 Safe and simple python expression evaluator.
 
 ## Installation
